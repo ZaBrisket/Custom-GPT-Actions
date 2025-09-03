@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: USAspending — Federal Awards Search
+  version: "1.0.0"
+  description: Search and aggregate federal contract awards.
+servers:
+  - url: https://api.usaspending.gov
+paths:
+  /api/v2/search/spending_by_award/:
+    post:
+      operationId: usaSpendingByAward
+      summary: Search awards by recipient/NAICS/PSC/time period.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filters:
+                  type: object
+                  description: Provide at least one filter (recipient_search_text, naics_codes, psc_codes, time_period).
+                fields:
+                  type: array
+                  items: { type: string }
+                limit:
+                  type: integer
+                  default: 25
+                page:
+                  type: integer
+                  default: 1
+                sort:
+                  type: string
+                  description: Field to sort by, e.g., "Award Amount".
+      responses:
+        "200":
+          description: JSON award results.

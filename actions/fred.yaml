@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: FRED (St. Louis Fed) — Time Series
+  version: "1.0.0"
+  description: Retrieve macro/market series observations from FRED.
+servers:
+  - url: https://api.stlouisfed.org
+components:
+  securitySchemes:
+    fredKey:
+      type: apiKey
+      in: query
+      name: api_key
+paths:
+  /fred/series/observations:
+    get:
+      operationId: fredSeriesObservations
+      summary: Get observations for a FRED series.
+      parameters:
+        - in: query
+          name: series_id
+          required: true
+          schema: { type: string }
+        - in: query
+          name: observation_start
+          schema: { type: string, example: "2018-01-01" }
+        - in: query
+          name: observation_end
+          schema: { type: string, example: "2025-01-01" }
+        - in: query
+          name: units
+          schema: { type: string }
+        - in: query
+          name: frequency
+          schema: { type: string }
+        - in: query
+          name: aggregation_method
+          schema: { type: string }
+        - in: query
+          name: file_type
+          schema: { type: string, default: json }
+      security:
+        - fredKey: []
+      responses:
+        "200":
+          description: JSON observations.

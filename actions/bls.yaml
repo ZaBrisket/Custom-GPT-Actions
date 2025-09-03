@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: BLS Public API — Timeseries
+  version: "1.0.0"
+  description: Fetch BLS series (inflation, labor) — POST endpoint.
+servers:
+  - url: https://api.bls.gov
+paths:
+  /publicAPI/v2/timeseries/data/:
+    post:
+      operationId: blsTimeseriesData
+      summary: Fetch BLS time series by series IDs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                seriesid:
+                  type: array
+                  items: { type: string }
+                startyear: { type: string, example: "2018" }
+                endyear: { type: string, example: "2025" }
+                registrationkey: { type: string, description: "Optional BLS API key." }
+              required: [seriesid]
+      responses:
+        "200":
+          description: JSON series data.

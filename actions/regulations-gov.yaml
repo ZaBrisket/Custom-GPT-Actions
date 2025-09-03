@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Regulations.gov — Documents Search (v4)
+  version: "1.0.0"
+  description: Search regulatory dockets and documents.
+servers:
+  - url: https://api.regulations.gov
+components:
+  securitySchemes:
+    regsKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+paths:
+  /v4/documents:
+    get:
+      operationId: regsSearchDocuments
+      summary: Search documents by term/agency/dates.
+      parameters:
+        - in: query
+          name: filter[searchTerm]
+          schema: { type: string }
+        - in: query
+          name: filter[agency]
+          schema: { type: string }
+        - in: query
+          name: filter[publicationDate][ge]
+          schema: { type: string, example: "2024-01-01" }
+        - in: query
+          name: filter[publicationDate][le]
+          schema: { type: string, example: "2025-12-31" }
+        - in: query
+          name: page[size]
+          schema: { type: integer, default: 25 }
+        - in: query
+          name: sort
+          schema: { type: string, example: "-commentEndDate" }
+      security:
+        - regsKey: []
+      responses:
+        "200":
+          description: JSON search results.

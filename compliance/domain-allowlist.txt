@@ -1,0 +1,9 @@
+# Allow these domains in your workspace if domain restrictions are enabled
+data.sec.gov
+api.stlouisfed.org
+api.bls.gov
+api.eia.gov
+api.regulations.gov
+api.opencorporates.com
+api.frankfurter.app
+api.usaspending.gov

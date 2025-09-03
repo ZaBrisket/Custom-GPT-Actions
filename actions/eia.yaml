@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: EIA — Energy Series
+  version: "1.0.0"
+  description: Energy Information Administration time series data.
+servers:
+  - url: https://api.eia.gov
+components:
+  securitySchemes:
+    eiaKey:
+      type: apiKey
+      in: query
+      name: api_key
+paths:
+  /series/:
+    get:
+      operationId: eiaSeries
+      summary: Get EIA series by series_id.
+      parameters:
+        - in: query
+          name: series_id
+          required: true
+          schema: { type: string }
+      security:
+        - eiaKey: []
+      responses:
+        "200":
+          description: JSON series data.

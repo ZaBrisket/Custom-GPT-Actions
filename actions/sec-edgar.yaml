@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: SEC EDGAR (Company Submissions & XBRL Facts)
+  version: "1.0.0"
+  description: |
+    Primary filings and facts from data.sec.gov. Requires a descriptive User-Agent header
+    (e.g., "YourFirm-YourAppName contact@example.com").
+servers:
+  - url: https://data.sec.gov
+components:
+  securitySchemes:
+    secUserAgent:
+      type: apiKey
+      in: header
+      name: User-Agent
+paths:
+  /submissions/{cik}.json:
+    get:
+      operationId: getCompanySubmissions
+      summary: Company submissions by CIK (padded to 10 digits server-side).
+      parameters:
+        - name: cik
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |
+            Numeric CIK without leading zeros (e.g., 320193). The server pads to 10 digits.
+      security:
+        - secUserAgent: []
+      responses:
+        "200":
+          description: JSON of recent submissions for the company.
+  /api/xbrl/companyfacts/CIK{cik}.json:
+    get:
+      operationId: getCompanyFacts
+      summary: XBRL company facts by CIK.
+      parameters:
+        - name: cik
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Numeric CIK without leading zeros.
+      security:
+        - secUserAgent: []
+      responses:
+        "200":
+          description: JSON of company XBRL facts.
